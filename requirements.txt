@@ -1,0 +1,8 @@
+streamlit
+transformers
+torch
+pandas
+tqdm
+beautifulsoup4
+seqeval
+rich
