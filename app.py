@@ -159,14 +159,26 @@ if run_btn:
                     color = label_colors.get(label, "#94a3b8")
                     return f"background-color: {color}; color: #0f172a; border-radius: 5px; padding: 3px 6px"
 
-                if "label" in df.columns:
+                def color_source(source):
+                    if source == "model":
+                        return "background-color: #093545; color: #b6f0e0; border-radius: 5px; padding: 3px 6px"
+                    elif source == "keypath":
+                        return "background-color: #4b2e83; color: #f0e6ff; border-radius: 5px; padding: 3px 6px"
+                    elif source == "regex":
+                        return "background-color: #3b0b0b; color: #ffd6d6; border-radius: 5px; padding: 3px 6px"
+                    return ""
+
+                if "label" in df.columns and "source" in df.columns:
                     df_styled = df.style.applymap(
                         lambda v: color_label(v) if v in label_colors else "",
                         subset=["label"]
+                    ).applymap(
+                        lambda v: color_source(v) if v in ["model", "keypath", "regex"] else "",
+                        subset=["source"]
                     )
                 else:
                     df_styled = df
-                st.dataframe(df_styled, use_container_width=True, height=420)
+                st.dataframe(df_styled, use_container_width=True, height=450)
             else:
                 st.info("No PHI entities detected.")
         else:
